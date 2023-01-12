@@ -52,6 +52,7 @@ export default function BuyerForm({ selectedSeats, setSuccessInfo, session }) {
                 onChange={handleForm}
                 placeholder="Digite seu nome..."
                 type="text"
+                data-test="client-name"
             />
 
             CPF do Comprador:
@@ -61,8 +62,9 @@ export default function BuyerForm({ selectedSeats, setSuccessInfo, session }) {
                 onChange={handleForm}
                 placeholder="Digite seu CPF..."
                 type="number"
+                data-test="client-cpf"
             />
-            <button disabled={disableButton} type="submit">Reservar Assento(s)</button>
+            <button disabled={disableButton} type="submit" data-test="book-seat-btn">Reservar Assento(s)</button>
         </Form>
     )
 }

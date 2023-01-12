@@ -24,7 +24,7 @@ export default function HomePage() {
             Selecione o filme
             <ListContainer>
                 {movies.map((m) => (
-                    <Link to={`/sessoes/${m.id}`} key={m.id}>
+                    <Link to={`/sessoes/${m.id}`} key={m.id} data-test="movie">
                         <MovieCard posterURL={m.posterURL} />
                     </Link>
                 ))}

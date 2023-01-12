@@ -16,7 +16,7 @@ export default function Seat({ seat, handleSeat, isSelected }) {
     }, [isSelected, seat])
 
     return (
-        <SeatItem status={status} onClick={() => handleSeat(seat)}>
+        <SeatItem status={status} onClick={() => handleSeat(seat)} data-test="seat">
             {seat.name}
         </SeatItem>
     )
