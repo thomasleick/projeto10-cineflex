@@ -1,4 +1,6 @@
 import styled from "styled-components"
+import reserveSeat from "../../APIs"
+import Api from "../../APIs"
 
 export default function SessionsPage() {
 
@@ -37,7 +39,7 @@ export default function SessionsPage() {
                 </div>
                 <div>
                     <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <button >Teste API</button>
+                    <button onClick={() => Api.reserveSeat([863, 864], `Thomas Leick`, "01234567890")}>Teste API</button>
                 </div>
             </FooterContainer>
 

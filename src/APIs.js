@@ -3,6 +3,7 @@ import axios from "axios"
 const getMovies = async () => {
     try {
         const response = await axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies")
+        console.log(response)
         return response
     }
     catch (err) {
@@ -14,6 +15,7 @@ const getMovies = async () => {
 const getMovieSchedule = async (id) => {
     try {
         const response = await axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
+        console.log(response)
         return response
     }
     catch (err) {
@@ -25,6 +27,7 @@ const getMovieSchedule = async (id) => {
 const getSeatList = async (id) => {
     try {
         const response = await axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${id}/seats`)
+        console.log(response)
         return response
     }
     catch (err) {
@@ -33,16 +36,17 @@ const getSeatList = async (id) => {
     }
 }
 
-const reserveSeat = async (req) => {
+const reserveSeat = async (ids, name, cpf) => {
 
-    const params = {
-        ids: `${req.ids}`,
-        name: `${req.name}`,
-        cpf: `${req.cpf}`
-    }
+    const seats = [ ...ids ]
+
+    const params = { ids: seats, name: `${name}`, cpf: `${cpf}` }
+
+    console.log(params)
 
     try {
         const response = await axios.post("https://mock-api.driven.com.br/api/v8/cineflex/seats/book-many", params)
+        console.log(response)
         return response
     }
     catch (err) {
