@@ -50,3 +50,5 @@ const reserveSeat = async (req) => {
         return err
     }
 }
+
+export default { getMovies, getMovieSchedule, getSeatList, reserveSeat }
