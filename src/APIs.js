@@ -10,3 +10,14 @@ const getMovies = async () => {
         return err
     }
 }
+
+const getMovieSchedule = async (id) => {
+    try {
+        const response = await axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
+        return response
+    }
+    catch (err) {
+        console.log(err)
+        return err
+    }
+}
