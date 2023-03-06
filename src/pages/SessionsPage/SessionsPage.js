@@ -1,6 +1,4 @@
 import styled from "styled-components"
-import reserveSeat from "../../APIs"
-import getMovies from "../../APIs"
 
 export default function SessionsPage() {
 
@@ -39,7 +37,7 @@ export default function SessionsPage() {
                 </div>
                 <div>
                     <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <button onClick={() => getMovies()}>Teste API</button>
+                    <button >Teste API</button>
                 </div>
             </FooterContainer>
 
