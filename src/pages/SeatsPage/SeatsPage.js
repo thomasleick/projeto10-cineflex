@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { useParams, useLocation } from "react-router-dom"
 import styled from "styled-components"
 import { useGetSeatList } from "../../APIs"
@@ -7,8 +8,28 @@ export default function SeatsPage() {
     const location = useLocation()
     const state = location.state
     const { data, fetchError, isLoading } = useGetSeatList(params.id)
+    const [seats, setSeats] = useState([])
+    
+    const addSeat = (id, name) => {
+        const newSeats = [...seats, { "id": id, "number": name }]
+        setSeats(newSeats)
+    }
 
-    console.log(data)
+    const removeSeat = (id, name) => {
+        const newSeats = [...seats]
+        let index = -1;
+        newSeats.some((e, i) => {
+            if (e.id === id)
+                return (index = i)
+        })
+        if (index > -1) {
+            newSeats.splice(index, 1)
+        }
+        setSeats(newSeats)
+    }
+
+    //console.log(data)
+    console.log(seats)
 
     return (
         <PageContainer>
@@ -19,7 +40,13 @@ export default function SeatsPage() {
                     Selecione o(s) assento(s)
 
                     <SeatsContainer>
-                        {data.seats.map(seat => <SeatItem key={seat.id} status={seat.isAvailable ? 1 : 0}>{seat.name}</SeatItem>)}
+                        {data.seats.map(seat => <SeatItem 
+                            key={seat.id}
+                            status={seats.some(e => e.id === seat.id) ? 2 : seat.isAvailable ? 1 : 0}
+                            onClick={seats.some(e => e.id === seat.id) ? () => removeSeat(seat.id, seat.name) : () => addSeat(seat.id, seat.name)}
+                        >
+                            {seat.name}
+                        </SeatItem>)}
                     </SeatsContainer>
 
                     <CaptionContainer>
@@ -37,15 +64,29 @@ export default function SeatsPage() {
                         </CaptionItem>
                     </CaptionContainer>
 
-                    <FormContainer>
-                        Nome do Comprador:
-                        <input placeholder="Digite seu nome..." />
+                    
+                    {seats?.length > 0 ? 
+                        <FormContainer>
+                            {seats.map(seat => { 
+                                console.log(seat)
+                                return (
+                                    <div key={`form${seat.id}`}>
+                                        <h1>{`Assento ${seat.number}`}</h1>
+                                        <br /> 
+                                        Nome do Comprador:
+                                        <input placeholder="Digite seu nome..." />
 
-                        CPF do Comprador:
-                        <input placeholder="Digite seu CPF..." />
-
-                        <button>Reservar Assento(s)</button>
-                    </FormContainer>
+                                        CPF do Comprador:
+                                        <input placeholder="Digite seu CPF..." />
+                                    </div>
+                                )
+                            })}
+                            <button>Reservar Assento(s)</button>
+                        </FormContainer>    
+                    :
+                        <StatusMsg><br /><br /><br /><br /><p>Escolha sua(s) poltrona(s)</p></StatusMsg>
+                    }
+                    
                 </>
             : 
             <StatusMsg><p>Não existem dados sobre esta sessão...</p></StatusMsg>)}
@@ -112,6 +153,9 @@ const FormContainer = styled.div`
     }
     input {
         width: calc(100vw - 60px);
+    }
+    h1 {
+        font-weight: 700
     }
 `
 const CaptionContainer = styled.div`
