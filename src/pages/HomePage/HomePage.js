@@ -1,13 +1,15 @@
 import styled from "styled-components"
 import MovieComponent from './MovieComponent'
+import useAxiosFetch from '../../hooks/useAxiosFetch'
 
 export default function HomePage() {
+    const { data, fetchError, isLoading } = useAxiosFetch("https://mock-api.driven.com.br/api/v8/cineflex/movies")
     return (
         <PageContainer>
             Selecione o filme
 
             <ListContainer>
-                <MovieComponent />
+                {data.map(movie => <MovieComponent movie={movie} />)}
             </ListContainer>
         
         </PageContainer>

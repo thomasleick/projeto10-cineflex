@@ -1,17 +1,5 @@
 import axios from "axios"
 
-const getMovies = async () => {
-    try {
-        const response = await axios.get("https://mock-api.driven.com.br/api/v8/cineflex/movies")
-        console.log(response)
-        return response
-    }
-    catch (err) {
-        console.log(err)
-        return err
-    }
-}
-
 const getMovieSchedule = async (id) => {
     try {
         const response = await axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
@@ -55,4 +43,4 @@ const reserveSeat = async (ids, name, cpf) => {
     }
 }
 
-export default { getMovies, getMovieSchedule, getSeatList, reserveSeat }
+export { getMovieSchedule, getSeatList, reserveSeat }
