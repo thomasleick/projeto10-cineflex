@@ -17,7 +17,7 @@ export default function HomePage() {
                     </ListContainer>
                 </>
             : 
-                <p className="statusMsg">Não há filmes disponíveis...</p>)}
+            <StatusMsg><p>Não há filmes disponíveis...</p></StatusMsg>)}
         </PageContainer>
     )
 }

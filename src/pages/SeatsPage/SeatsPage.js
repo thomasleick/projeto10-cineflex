@@ -1,57 +1,83 @@
+import { useParams, useLocation } from "react-router-dom"
 import styled from "styled-components"
+import { useGetSeatList } from "../../APIs"
 
 export default function SeatsPage() {
+    const params = useParams()
+    const location = useLocation()
+    const state = location.state
+    const { data, fetchError, isLoading } = useGetSeatList(params.id)
+
+    console.log(data)
 
     return (
         <PageContainer>
-            Selecione o(s) assento(s)
+            {isLoading && <StatusMsg><p>Carregando horários...</p></StatusMsg>}
+            {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
+            {!isLoading && !fetchError && (data?.seats?.length ? 
+                <>
+                    Selecione o(s) assento(s)
 
-            <SeatsContainer>
-                <SeatItem>01</SeatItem>
-                <SeatItem>02</SeatItem>
-                <SeatItem>03</SeatItem>
-                <SeatItem>04</SeatItem>
-                <SeatItem>05</SeatItem>
-            </SeatsContainer>
+                    <SeatsContainer>
+                        {data.seats.map(seat => <SeatItem key={seat.id} status={seat.isAvailable ? 1 : 0}>{seat.name}</SeatItem>)}
+                    </SeatsContainer>
 
-            <CaptionContainer>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Selecionado
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Disponível
-                </CaptionItem>
-                <CaptionItem>
-                    <CaptionCircle />
-                    Indisponível
-                </CaptionItem>
-            </CaptionContainer>
+                    <CaptionContainer>
+                        <CaptionItem>
+                            <CaptionCircle status={2}/>
+                            Selecionado
+                        </CaptionItem>
+                        <CaptionItem>
+                            <CaptionCircle status={1}/>
+                            Disponível
+                        </CaptionItem>
+                        <CaptionItem>
+                            <CaptionCircle status={0}/>
+                            Indisponível
+                        </CaptionItem>
+                    </CaptionContainer>
 
-            <FormContainer>
-                Nome do Comprador:
-                <input placeholder="Digite seu nome..." />
+                    <FormContainer>
+                        Nome do Comprador:
+                        <input placeholder="Digite seu nome..." />
 
-                CPF do Comprador:
-                <input placeholder="Digite seu CPF..." />
+                        CPF do Comprador:
+                        <input placeholder="Digite seu CPF..." />
 
-                <button>Reservar Assento(s)</button>
-            </FormContainer>
-
+                        <button>Reservar Assento(s)</button>
+                    </FormContainer>
+                </>
+            : 
+            <StatusMsg><p>Não existem dados sobre esta sessão...</p></StatusMsg>)}
+    
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={state.url} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
-                    <p>Sexta - 14h00</p>
+                    <p>{state.title}</p>
+                    <p>{`${state.weekday} - ${state.time}`}</p>
                 </div>
             </FooterContainer>
 
         </PageContainer>
     )
 }
+
+const colors = [
+    {
+        borders: "#F7C52B",
+        background: "#FBE192"
+    },
+    {
+        borders: "#808F9D",
+        background: "#C3CFD9"
+    },
+    {
+        borders: "#0E7D71",
+        background: "#1AAE9E"
+    }
+]
 
 const PageContainer = styled.div`
     display: flex;
@@ -96,8 +122,8 @@ const CaptionContainer = styled.div`
     margin: 20px;
 `
 const CaptionCircle = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: 1px solid ${props => colors[props.status].borders};
+    background-color: ${props => colors[props.status].background};
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -113,8 +139,8 @@ const CaptionItem = styled.div`
     font-size: 12px;
 `
 const SeatItem = styled.div`
-    border: 1px solid blue;         // Essa cor deve mudar
-    background-color: lightblue;    // Essa cor deve mudar
+    border: 1px solid ${props => colors[props.status].borders};
+    background-color: ${props => colors[props.status].background};
     height: 25px;
     width: 25px;
     border-radius: 25px;
@@ -161,5 +187,14 @@ const FooterContainer = styled.div`
                 margin-top: 10px;
             }
         }
+    }
+`
+
+const StatusMsg = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+        font-weight: 700
     }
 `

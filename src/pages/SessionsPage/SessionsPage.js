@@ -8,7 +8,6 @@ export default function SessionsPage(props) {
     const state = location.state
     const { id } = useParams()
     const { data, fetchError, isLoading } = useGetMovieSchedule(id)
-    //console.log(data.days)
 
     return (
         <PageContainer>
@@ -22,14 +21,22 @@ export default function SessionsPage(props) {
                         <SessionContainer key={day.id}>
                             {`${day.weekday} - ${day.date}`}
                             <ButtonsContainer>
-                                {day.showtimes.map(session => <Link to={`/assentos/${session.id}`}><button key={session.id}>{session.name}</button></Link>)}
+                                {day.showtimes.map(session => {
+                                    const stateSession = {
+                                        "title": state.title,
+                                        "url": state.url,
+                                        "weekday": day.weekday,
+                                        "time": session.name
+                                    }
+                                    return (<Link to={`/assentos/${session.id}`} state={stateSession} key={session.id}><button>{session.name}</button></Link>)
+                                })}
                             </ButtonsContainer>
                         </SessionContainer>
                     )}
                     
                 </>
             : 
-            <p className="statusMsg">Não há horários disponíveis...</p>)}
+            <StatusMsg><p>Não há horários disponíveis...</p></StatusMsg>)}
            
             <FooterContainer>
                 <div>

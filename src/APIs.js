@@ -12,7 +12,7 @@ const useGetMovieSchedule = (id) => {
     return { data, fetchError, isLoading }
 }
 
-const useGetSeatList = async (id) => {
+const useGetSeatList = (id) => {
     const { data, fetchError, isLoading } = useAxiosFetch(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${id}/seats`)
     return { data, fetchError, isLoading }
 }
