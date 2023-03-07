@@ -6,12 +6,17 @@ export default function HomePage() {
     const { data, fetchError, isLoading } = useAxiosFetch("https://mock-api.driven.com.br/api/v8/cineflex/movies")
     return (
         <PageContainer>
-            Selecione o filme
-
-            <ListContainer>
-                {data.map(movie => <MovieComponent movie={movie} />)}
-            </ListContainer>
-        
+            {isLoading && <StatusMsg><p>Carregando filmes...</p></StatusMsg>}
+            {!isLoading && fetchError && <p className="statusMsg" style={{ color: "red" }}>{fetchError}</p>}
+            {!isLoading && !fetchError && (data.length ? 
+                <>
+                    Selecione o filme
+                    <ListContainer>
+                        {data.map(movie => <MovieComponent id={movie.id} posterURL={movie.posterURL} key={`Movie ${movie.id}`}/>)}
+                    </ListContainer>
+                </>
+            : 
+                <p className="statusMsg">Não há filmes disponíveis...</p>)}
         </PageContainer>
     )
 }
@@ -33,4 +38,12 @@ const ListContainer = styled.div`
     flex-wrap: wrap;
     flex-direction: row;
     padding: 10px;
+`
+const StatusMsg = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+        font-weight: 700
+    }
 `

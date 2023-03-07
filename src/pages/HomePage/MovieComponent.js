@@ -18,10 +18,11 @@ const MovieContainer = styled.div`
     }
 `
 
-const MovieComponent = () => {
+const MovieComponent = (props) => {
+    const { id, posterURL} = props
     return (
         <MovieContainer>
-            <Link to="/sessoes/1" ><img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster"/></Link>
+            <Link to={`/sessoes/${id}`} ><img src={posterURL} alt="poster"/></Link>
         </MovieContainer>
     );
 };
