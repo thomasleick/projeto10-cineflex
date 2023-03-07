@@ -1,18 +1,19 @@
 import styled from "styled-components"
 import MovieComponent from './MovieComponent'
-import useAxiosFetch from '../../hooks/useAxiosFetch'
+import { useGetMovies } from '../../APIs'
 
 export default function HomePage() {
-    const { data, fetchError, isLoading } = useAxiosFetch("https://mock-api.driven.com.br/api/v8/cineflex/movies")
+    const { data, fetchError, isLoading } = useGetMovies()
+
     return (
         <PageContainer>
             {isLoading && <StatusMsg><p>Carregando filmes...</p></StatusMsg>}
-            {!isLoading && fetchError && <p className="statusMsg" style={{ color: "red" }}>{fetchError}</p>}
-            {!isLoading && !fetchError && (data.length ? 
+            {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
+            {!isLoading && !fetchError && (data?.length ? 
                 <>
                     Selecione o filme
                     <ListContainer>
-                        {data.map(movie => <MovieComponent id={movie.id} posterURL={movie.posterURL} key={`Movie ${movie.id}`}/>)}
+                        {data.map(movie => <MovieComponent id={movie.id} posterURL={movie.posterURL} title={movie.title} key={`Movie ${movie.id}`}/>)}
                     </ListContainer>
                 </>
             : 

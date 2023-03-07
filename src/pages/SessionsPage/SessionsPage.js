@@ -1,44 +1,42 @@
 import styled from "styled-components"
-import reserveSeat from "../../APIs"
-import Api from "../../APIs"
+import { useLocation, useParams, Link } from "react-router-dom"
+import { useGetMovieSchedule } from "../../APIs"
 
-export default function SessionsPage() {
+export default function SessionsPage(props) {
+
+    const location = useLocation()
+    const state = location.state
+    const { id } = useParams()
+    const { data, fetchError, isLoading } = useGetMovieSchedule(id)
+    //console.log(data.days)
 
     return (
         <PageContainer>
-            Selecione o horário
-            <div>
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-
-                <SessionContainer>
-                    Sexta - 03/03/2023
-                    <ButtonsContainer>
-                        <button>14:00</button>
-                        <button>15:00</button>
-                    </ButtonsContainer>
-                </SessionContainer>
-            </div>
-
+            {isLoading && <StatusMsg><p>Carregando horários...</p></StatusMsg>}
+            {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
+            {!isLoading && !fetchError && (data?.days?.length ? 
+                <>
+                    Selecione o horário
+                    
+                    {data.days.map(day =>
+                        <SessionContainer key={day.id}>
+                            {`${day.weekday} - ${day.date}`}
+                            <ButtonsContainer>
+                                {day.showtimes.map(session => <Link to={`/assentos/${session.id}`}><button key={session.id}>{session.name}</button></Link>)}
+                            </ButtonsContainer>
+                        </SessionContainer>
+                    )}
+                    
+                </>
+            : 
+            <p className="statusMsg">Não há horários disponíveis...</p>)}
+           
             <FooterContainer>
                 <div>
-                    <img src={"https://br.web.img2.acsta.net/pictures/22/05/16/17/59/5165498.jpg"} alt="poster" />
+                    <img src={state.url} alt="poster" />
                 </div>
                 <div>
-                    <p>Tudo em todo lugar ao mesmo tempo</p>
+                    <p>{state.title}</p>
                 </div>
             </FooterContainer>
 
@@ -116,5 +114,13 @@ const FooterContainer = styled.div`
                 margin-top: 10px;
             }
         }
+    }
+`
+const StatusMsg = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+        font-weight: 700
     }
 `

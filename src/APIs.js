@@ -1,27 +1,20 @@
-import axios from "axios"
+import useAxiosFetch from './hooks/useAxiosFetch'
+import axios from 'axios'
 
-const getMovieSchedule = async (id) => {
-    try {
-        const response = await axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
-        console.log(response)
-        return response
-    }
-    catch (err) {
-        console.log(err)
-        return err
-    }
+
+const useGetMovies = () => {
+    const { data, fetchError, isLoading } = useAxiosFetch("https://mock-api.driven.com.br/api/v8/cineflex/movies")
+    return { data, fetchError, isLoading }
 }
 
-const getSeatList = async (id) => {
-    try {
-        const response = await axios.get(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${id}/seats`)
-        console.log(response)
-        return response
-    }
-    catch (err) {
-        console.log(err)
-        return err
-    }
+const useGetMovieSchedule = (id) => {
+    const { data, fetchError, isLoading } = useAxiosFetch(`https://mock-api.driven.com.br/api/v8/cineflex/movies/${id}/showtimes`)
+    return { data, fetchError, isLoading }
+}
+
+const useGetSeatList = async (id) => {
+    const { data, fetchError, isLoading } = useAxiosFetch(`https://mock-api.driven.com.br/api/v8/cineflex/showtimes/${id}/seats`)
+    return { data, fetchError, isLoading }
 }
 
 const reserveSeat = async (ids, name, cpf) => {
@@ -43,4 +36,4 @@ const reserveSeat = async (ids, name, cpf) => {
     }
 }
 
-export { getMovieSchedule, getSeatList, reserveSeat }
+export { useGetMovies, useGetMovieSchedule, useGetSeatList, reserveSeat }

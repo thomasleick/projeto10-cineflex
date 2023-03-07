@@ -19,10 +19,14 @@ const MovieContainer = styled.div`
 `
 
 const MovieComponent = (props) => {
-    const { id, posterURL} = props
+    const { id, posterURL, title} = props
+    const state = {
+        "title": title,
+        "url": posterURL
+    }
     return (
         <MovieContainer>
-            <Link to={`/sessoes/${id}`} ><img src={posterURL} alt="poster"/></Link>
+            <Link to={`/sessoes/${id}`} state={state}><img src={posterURL} alt="poster" /></Link>
         </MovieContainer>
     );
 };

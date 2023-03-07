@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import styled from "styled-components"
 import HomePage from "./pages/HomePage/HomePage"
@@ -8,14 +8,17 @@ import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
     return (
-        <Router>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/asdasdasdsd/" element={<SeatsPage />} />
-            <Route path="/sessoes/:id" element={<SessionsPage />} />
-            <Route path="/aaa/" element={<SuccessPage />} />
-          </Routes>
-        </Router>
+        <>
+            <NavContainer>CINEFLEX</NavContainer>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<HomePage />} />
+                    <Route path="/assentos/:id" element={<SeatsPage />} />
+                    <Route path="/sessoes/:id" element={<SessionsPage />} />
+                    <Route path="/aaa/" element={<SuccessPage />} />
+                </Routes>
+            </Router>
+        </>
       );
     }
 
