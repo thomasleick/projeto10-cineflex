@@ -15,7 +15,7 @@ export default function SeatsPage() {
         setSeats(newSeats)
     }
 
-    const removeSeat = (id, name) => {
+    const removeSeat = (id) => {
         const newSeats = [...seats]
         let index = -1;
         newSeats.some((e, i) => {
@@ -27,9 +27,6 @@ export default function SeatsPage() {
         }
         setSeats(newSeats)
     }
-
-    //console.log(data)
-    console.log(seats)
 
     return (
         <PageContainer>
@@ -43,7 +40,7 @@ export default function SeatsPage() {
                         {data.seats.map(seat => <SeatItem 
                             key={seat.id}
                             status={seats.some(e => e.id === seat.id) ? 2 : seat.isAvailable ? 1 : 0}
-                            onClick={seats.some(e => e.id === seat.id) ? () => removeSeat(seat.id, seat.name) : () => addSeat(seat.id, seat.name)}
+                            onClick={seat.isAvailable ? seats.some(e => e.id === seat.id) ? () => removeSeat(seat.id) : () => addSeat(seat.id, seat.name) : undefined}
                         >
                             {seat.name}
                         </SeatItem>)}
@@ -68,7 +65,6 @@ export default function SeatsPage() {
                     {seats?.length > 0 ? 
                         <FormContainer>
                             {seats.map(seat => { 
-                                console.log(seat)
                                 return (
                                     <div key={`form${seat.id}`}>
                                         <h1>{`Assento ${seat.number}`}</h1>
