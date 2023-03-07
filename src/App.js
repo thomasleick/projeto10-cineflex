@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import styled from "styled-components"
 import HomePage from "./pages/HomePage/HomePage"
 import SeatsPage from "./pages/SeatsPage/SeatsPage"
@@ -6,16 +8,16 @@ import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
     return (
-        <>
-           <NavContainer>CINEFLEX</NavContainer>
-
-            {/* <HomePage /> */}
-            {/* <SeatsPage /> */}
-            <SessionsPage />
-            {/* <SuccessPage /> */}
-        </>
-    )
-}
+        <Router>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/asdasdasdsd/" element={<SeatsPage />} />
+            <Route path="/sessoes/:id" element={<SessionsPage />} />
+            <Route path="/aaa/" element={<SuccessPage />} />
+          </Routes>
+        </Router>
+      );
+    }
 
 const NavContainer = styled.div`
     width: 100%;
