@@ -1,39 +1,60 @@
 import { useLocation } from "react-router-dom"
 import styled from "styled-components"
+import { useEffect, useState } from "react"
+import { useReserveSeat } from "../../APIs"
 
 export default function SuccessPage() {
-
     const location = useLocation()
     const state = location.state
-    console.log(state)
+    const [params, setParams] = useState({})
+
+    useEffect(() => {
+        let ids = []
+        state.seats.map(seat => ids.push(seat.id))
+        let newParams = { 
+            "ids": ids,
+            "compradores": state.seatsInfo
+        }
+        setParams(newParams)
+    }, [])
+
+    const { data, fetchError, isLoading } = useReserveSeat(params)
 
     return (
+        
         <PageContainer>
-            <h1>Pedido feito <br /> com sucesso!</h1>
+            {isLoading && <StatusMsg><p>Efetuando a compra...</p></StatusMsg>}
+            {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
+            {!isLoading && !fetchError && (data === "OK!" ?
+            <> 
+                <h1>Pedido feito <br /> com sucesso!</h1>
 
-            <TextContainer>
-                <strong><p>Filme e sessão</p></strong>
-                <p>{state.movieInfo.title}</p>
-                <p>{`${state.movieInfo.date} - ${state.movieInfo.time}`}</p>
-            </TextContainer>
+                <TextContainer>
+                    <strong><p>Filme e sessão</p></strong>
+                    <p>{state.movieInfo.title}</p>
+                    <p>{`${state.movieInfo.date} - ${state.movieInfo.time}`}</p>
+                </TextContainer>
 
-            <TextContainer>
-                <strong><p>Ingressos</p></strong>
-                {state.seats.map(seat => <p key={`seat${seat.id}`}>Assento {seat.number}</p>)}
-            </TextContainer>
+                <TextContainer>
+                    <strong><p>Ingressos</p></strong>
+                    {state.seats.map(seat => <p key={`seat${seat.id}`}>Assento {seat.number}</p>)}
+                </TextContainer>
 
-            <TextContainer>
-                <strong><p>{state.seats.length > 1 ? "Compradores" : "Comprador"}</p></strong>
-                {state.seatsInfo.map((seat, id) => 
-                    <div key={`seatInfo${seat.idAssento}`}>
-                        <p>{`Nome: ${seat.nome} - Assento ${state.seats[id].number}`}</p>
-                        <p>{`CPF: ${seat.cpf}`}</p>
-                        <br />
-                    </div>
-                )}
-            </TextContainer>
+                <TextContainer>
+                    <strong><p>{state.seats.length > 1 ? "Compradores" : "Comprador"}</p></strong>
+                    {state.seatsInfo.map((seat, id) => 
+                        <div key={`seatInfo${seat.idAssento}`}>
+                            <p>{`Nome: ${seat.nome} - Assento ${state.seats[id].number}`}</p>
+                            <p>{`CPF: ${seat.cpf}`}</p>
+                            <br />
+                        </div>
+                    )}
+                </TextContainer>
 
-            <button>Voltar para Home</button>
+                <button>Voltar para Home</button>
+            </>
+            :
+            <StatusMsg><p>Algum erro aconteceu...</p></StatusMsg>)}
         </PageContainer>
     )
 }
@@ -75,5 +96,13 @@ const TextContainer = styled.div`
     strong {
         font-weight: bold;
         margin-bottom: 10px;
+    }
+`
+const StatusMsg = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    p {
+        font-weight: 700
     }
 `
