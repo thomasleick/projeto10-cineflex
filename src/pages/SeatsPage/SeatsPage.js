@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { useParams, useLocation } from "react-router-dom"
+import { useParams, useLocation, Link } from "react-router-dom"
 import styled from "styled-components"
 import { useGetSeatList } from "../../APIs"
 
@@ -45,12 +45,9 @@ export default function SeatsPage() {
     }
 
     const handleChange = (value, prop, index) => {
-        console.log(`Mudar ${prop} do index ${index} para o valor ${value}`)
         const newSeatsInfo = [...seatsInfo]
         newSeatsInfo[index][prop] = value
         setSeatsInfo(newSeatsInfo)
-        console.log(newSeatsInfo)
-        
     }
 
     return (
@@ -116,7 +113,7 @@ export default function SeatsPage() {
                                     </div>
                                 )
                             })}
-                            <button>Reservar Assento(s)</button>
+                            <Link to={"/sucesso"} state={seatsInfo} style={linkStyle}><button>Reservar Assento(s)</button></Link>
                         </FormContainer>    
                     :
                         <StatusMsg><br /><br /><br /><br /><p>Escolha sua(s) poltrona(s)</p></StatusMsg>
@@ -277,3 +274,7 @@ const StatusMsg = styled.div`
         font-weight: 700
     }
 `
+
+const linkStyle = {
+    textDecoration: "none"
+}
