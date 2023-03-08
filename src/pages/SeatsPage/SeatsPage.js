@@ -9,14 +9,28 @@ export default function SeatsPage() {
     const state = location.state
     const { data, fetchError, isLoading } = useGetSeatList(params.id)
     const [seats, setSeats] = useState([])
+    const [seatsInfo, setSeatsInfo] = useState([])
     
     const addSeat = (id, name) => {
         const newSeats = [...seats, { "id": id, "number": name }]
+        const newSeatsInfo = [...seatsInfo, { "idAssento": id, "nome": "", "cpf": "" }]
+        if (newSeats.length > 1) {
+            newSeats.sort((a, b) => a.id - b.id);
+            newSeatsInfo.sort((a, b) => a.idAssento - b.idAssento)
+            }
         setSeats(newSeats)
+        setSeatsInfo(newSeatsInfo)
     }
 
-    const removeSeat = (id) => {
+    console.log(seatsInfo)
+
+    const removeSeat = (id, name) => {
+
+        if (!window.confirm(`Você realmente deseja desmarcar o assento ${name} e apagar todos os dados fornecidos para ele?`))
+            return 0
+
         const newSeats = [...seats]
+        const newSeatsInfo = [...seatsInfo]
         let index = -1;
         newSeats.some((e, i) => {
             if (e.id === id)
@@ -24,8 +38,19 @@ export default function SeatsPage() {
         })
         if (index > -1) {
             newSeats.splice(index, 1)
+            newSeatsInfo.splice(index, 1)
         }
         setSeats(newSeats)
+        setSeatsInfo(newSeatsInfo)
+    }
+
+    const handleChange = (value, prop, index) => {
+        console.log(`Mudar ${prop} do index ${index} para o valor ${value}`)
+        const newSeatsInfo = [...seatsInfo]
+        newSeatsInfo[index][prop] = value
+        setSeatsInfo(newSeatsInfo)
+        console.log(newSeatsInfo)
+        
     }
 
     return (
@@ -40,7 +65,15 @@ export default function SeatsPage() {
                         {data.seats.map(seat => <SeatItem 
                             key={seat.id}
                             status={seats.some(e => e.id === seat.id) ? 2 : seat.isAvailable ? 1 : 0}
-                            onClick={seat.isAvailable ? seats.some(e => e.id === seat.id) ? () => removeSeat(seat.id) : () => addSeat(seat.id, seat.name) : undefined}
+                            onClick={
+                                seat.isAvailable ? 
+                                    seats.some(e => e.id === seat.id) ? 
+                                        () => removeSeat(seat.id, seat.name) 
+                                    : 
+                                        () => addSeat(seat.id, seat.name) 
+                                : 
+                                    () => window.alert("Esse assento não está disponível.")
+                                }
                         >
                             {seat.name}
                         </SeatItem>)}
@@ -64,16 +97,22 @@ export default function SeatsPage() {
                     
                     {seats?.length > 0 ? 
                         <FormContainer>
-                            {seats.map(seat => { 
+                            {seats.map((seat, index) => { 
                                 return (
                                     <div key={`form${seat.id}`}>
                                         <h1>{`Assento ${seat.number}`}</h1>
                                         <br /> 
-                                        Nome do Comprador:
-                                        <input placeholder="Digite seu nome..." />
+                                        Nome:
+                                        <input 
+                                            placeholder="Digite o nome completo..." 
+                                            onChange={(e) => handleChange(e.target.value, "nome", index)}
+                                        />
 
-                                        CPF do Comprador:
-                                        <input placeholder="Digite seu CPF..." />
+                                        CPF:
+                                        <input 
+                                            placeholder="Digite o CPF..." 
+                                            onChange={(e) => handleChange(e.target.value, "cpf", index)}
+                                        />
                                     </div>
                                 )
                             })}
