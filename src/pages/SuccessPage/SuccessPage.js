@@ -3,10 +3,14 @@ import styled from "styled-components"
 import { useEffect, useState } from "react"
 import { useReserveSeat } from "../../APIs"
 
-export default function SuccessPage() {
+export default function SuccessPage({ setShowButton }) {
     const location = useLocation()
     const state = location.state
     const [params, setParams] = useState({})
+
+    useEffect(() => {
+        setShowButton(true);
+      }, [setShowButton]);
 
     useEffect(() => {
         let ids = []

@@ -2,8 +2,14 @@ import { useState } from "react"
 import { useParams, useLocation, Link } from "react-router-dom"
 import styled from "styled-components"
 import { useGetSeatList } from "../../APIs"
+import { useEffect } from "react"
 
-export default function SeatsPage() {
+export default function SeatsPage({ setShowButton }) {
+
+    useEffect(() => {
+        setShowButton(true);
+      }, [setShowButton]);
+
     const params = useParams()
     const location = useLocation()
     const state = location.state

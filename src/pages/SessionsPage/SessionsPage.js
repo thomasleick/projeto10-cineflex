@@ -1,8 +1,13 @@
 import styled from "styled-components"
 import { useLocation, useParams, Link } from "react-router-dom"
 import { useGetMovieSchedule } from "../../APIs"
+import { useEffect } from "react"
 
-export default function SessionsPage(props) {
+export default function SessionsPage({ setShowButton }) {
+
+    useEffect(() => {
+        setShowButton(true);
+      }, [setShowButton]);
 
     const location = useLocation()
     const state = location.state

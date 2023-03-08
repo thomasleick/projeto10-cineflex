@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import styled from "styled-components"
 import HomePage from "./pages/HomePage/HomePage"
@@ -7,15 +7,16 @@ import SessionsPage from "./pages/SessionsPage/SessionsPage"
 import SuccessPage from "./pages/SuccessPage/SuccessPage"
 
 export default function App() {
+    const [showButton, setShowButton] = useState(false)
     return (
         <>
-            <NavContainer>CINEFLEX</NavContainer>
+            <NavContainer>{showButton && <button>VOLTAR</button>}CINEFLEX</NavContainer>
             <Router>
                 <Routes>
-                    <Route path="/" element={<HomePage />} />
-                    <Route path="/assentos/:id" element={<SeatsPage />} />
-                    <Route path="/sessoes/:id" element={<SessionsPage />} />
-                    <Route path="/sucesso" element={<SuccessPage />} />
+                    <Route path="/" element={<HomePage setShowButton={setShowButton}/>} />
+                    <Route path="/assentos/:id" element={<SeatsPage setShowButton={setShowButton} />} />
+                    <Route path="/sessoes/:id" element={<SessionsPage setShowButton={setShowButton} />} />
+                    <Route path="/sucesso" element={<SuccessPage setShowButton={setShowButton} />} />
                 </Routes>
             </Router>
         </>
@@ -37,5 +38,10 @@ const NavContainer = styled.div`
     a {
         text-decoration: none;
         color: #E8833A;
+    };
+    button {
+        position: fixed
+        top: 10px
+        left: 10px
     }
 `

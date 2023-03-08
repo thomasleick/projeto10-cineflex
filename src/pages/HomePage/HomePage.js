@@ -1,9 +1,14 @@
 import styled from "styled-components"
 import MovieComponent from './MovieComponent'
 import { useGetMovies } from '../../APIs'
+import { useEffect } from "react"
 
-export default function HomePage() {
+export default function HomePage({ setShowButton }) {
     const { data, fetchError, isLoading } = useGetMovies()
+
+    useEffect(() => {
+        setShowButton(false);
+      }, [setShowButton]);
 
     return (
         <PageContainer>
