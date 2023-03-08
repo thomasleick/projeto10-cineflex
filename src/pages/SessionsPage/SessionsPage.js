@@ -26,6 +26,7 @@ export default function SessionsPage(props) {
                                         "title": state.title,
                                         "url": state.url,
                                         "weekday": day.weekday,
+                                        "date": day.date,
                                         "time": session.name
                                     }
                                     return (<Link to={`/assentos/${session.id}`} state={stateSession} key={session.id}><button>{session.name}</button></Link>)

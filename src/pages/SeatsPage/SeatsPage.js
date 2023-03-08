@@ -22,8 +22,6 @@ export default function SeatsPage() {
         setSeatsInfo(newSeatsInfo)
     }
 
-    console.log(seatsInfo)
-
     const removeSeat = (id, name) => {
 
         if (!window.confirm(`Você realmente deseja desmarcar o assento ${name} e apagar todos os dados fornecidos para ele?`))
@@ -90,7 +88,6 @@ export default function SeatsPage() {
                             Indisponível
                         </CaptionItem>
                     </CaptionContainer>
-
                     
                     {seats?.length > 0 ? 
                         <FormContainer>
@@ -113,7 +110,13 @@ export default function SeatsPage() {
                                     </div>
                                 )
                             })}
-                            <Link to={"/sucesso"} state={seatsInfo} style={linkStyle}><button>Reservar Assento(s)</button></Link>
+                            <Link 
+                                to={"/sucesso"} 
+                                state={{"movieInfo": state, "seatsInfo": seatsInfo, "seats": seats}} 
+                                style={linkStyle}
+                            >
+                                <button>Reservar Assento(s)</button>
+                            </Link>
                         </FormContainer>    
                     :
                         <StatusMsg><br /><br /><br /><br /><p>Escolha sua(s) poltrona(s)</p></StatusMsg>

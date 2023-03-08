@@ -1,6 +1,11 @@
+import { useLocation } from "react-router-dom"
 import styled from "styled-components"
 
 export default function SuccessPage() {
+
+    const location = useLocation()
+    const state = location.state
+    console.log(state)
 
     return (
         <PageContainer>
@@ -8,21 +13,24 @@ export default function SuccessPage() {
 
             <TextContainer>
                 <strong><p>Filme e sessão</p></strong>
-                <p>Tudo em todo lugar ao mesmo tempo</p>
-                <p>03/03/2023 - 14:00</p>
+                <p>{state.movieInfo.title}</p>
+                <p>{`${state.movieInfo.date} - ${state.movieInfo.time}`}</p>
             </TextContainer>
 
             <TextContainer>
                 <strong><p>Ingressos</p></strong>
-                <p>Assento 01</p>
-                <p>Assento 02</p>
-                <p>Assento 03</p>
+                {state.seats.map(seat => <p key={`seat${seat.id}`}>Assento {seat.number}</p>)}
             </TextContainer>
 
             <TextContainer>
-                <strong><p>Comprador</p></strong>
-                <p>Nome: Letícia Chijo</p>
-                <p>CPF: 123.456.789-10</p>
+                <strong><p>{state.seats.length > 1 ? "Compradores" : "Comprador"}</p></strong>
+                {state.seatsInfo.map((seat, id) => 
+                    <div key={`seatInfo${seat.idAssento}`}>
+                        <p>{`Nome: ${seat.nome} - Assento ${state.seats[id].number}`}</p>
+                        <p>{`CPF: ${seat.cpf}`}</p>
+                        <br />
+                    </div>
+                )}
             </TextContainer>
 
             <button>Voltar para Home</button>
