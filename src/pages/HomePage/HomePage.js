@@ -19,7 +19,6 @@ export default function HomePage() {
                                 posterURL={movie.posterURL} 
                                 title={movie.title} 
                                 key={`Movie ${movie.id}`}
-                                data-test="movie"
                             />
                         )}
                     </ListContainer>

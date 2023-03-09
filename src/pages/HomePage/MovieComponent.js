@@ -25,7 +25,7 @@ const MovieComponent = (props) => {
         "url": posterURL
     }
     return (
-        <MovieContainer>
+        <MovieContainer data-test="movie">
             <Link to={`/sessoes/${id}`} state={state}><img src={posterURL} alt="poster" /></Link>
         </MovieContainer>
     );
