@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import MovieComponent from './MovieComponent'
 import { useGetMovies } from '../../APIs'
-import { useEffect } from "react"
 
 export default function HomePage() {
     const { data, fetchError, isLoading } = useGetMovies()

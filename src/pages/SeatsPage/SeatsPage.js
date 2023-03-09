@@ -34,6 +34,7 @@ export default function SeatsPage() {
         newSeats.some((e, i) => {
             if (e.id === id)
                 return (index = i)
+            return false
         })
         if (index > -1) {
             newSeats.splice(index, 1)

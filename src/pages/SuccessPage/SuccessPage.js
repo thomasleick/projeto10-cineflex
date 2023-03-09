@@ -17,7 +17,7 @@ export default function SuccessPage() {
             "compradores": state.seatsInfo
         }
         setParams(newParams)
-    }, [])
+    }, [state.seats, state.seatsInfo])
 
     const { data, fetchError, isLoading } = useReserveSeat(params)
 
