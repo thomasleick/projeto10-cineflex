@@ -1,14 +1,9 @@
 import styled from "styled-components"
-import { useLocation, useParams, Link } from "react-router-dom"
+import { useLocation, useParams, Link, useNavigate } from "react-router-dom"
 import { useGetMovieSchedule } from "../../APIs"
-import { useEffect } from "react"
 
-export default function SessionsPage({ setShowButton }) {
-
-    useEffect(() => {
-        setShowButton(true);
-      }, [setShowButton]);
-
+export default function SessionsPage() {
+    const nav = useNavigate()
     const location = useLocation()
     const state = location.state
     const { id } = useParams()
@@ -20,6 +15,7 @@ export default function SessionsPage({ setShowButton }) {
             {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
             {!isLoading && !fetchError && (data?.days?.length ? 
                 <>
+                    <Button onClick={() => nav(-1)}>Voltar</Button>
                     Selecione o horário
                     
                     {data.days.map(day =>
@@ -135,5 +131,25 @@ const StatusMsg = styled.div`
     justify-content: center;
     p {
         font-weight: 700
+    }
+`
+const Button = styled.button`
+    position: fixed;
+    top: 13px;
+    left: 13px;
+    height: 43px;
+    background: #E8833A;
+    border-radius: 3px;
+    border-style: none;
+    font-family: 'Roboto';
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    z-index: 1;
+    &:disabled {
+        background-color: lightgray;
     }
 `

@@ -1,16 +1,13 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { useEffect, useState } from "react"
 import { useReserveSeat } from "../../APIs"
 
-export default function SuccessPage({ setShowButton }) {
+export default function SuccessPage() {
     const location = useLocation()
     const state = location.state
     const [params, setParams] = useState({})
-
-    useEffect(() => {
-        setShowButton(true);
-      }, [setShowButton]);
+    const nav = useNavigate()
 
     useEffect(() => {
         let ids = []
@@ -55,7 +52,7 @@ export default function SuccessPage({ setShowButton }) {
                     )}
                 </TextContainer>
 
-                <button>Voltar para Home</button>
+                <button onClick={() => nav(`/`)}>Voltar para Home</button>
             </>
             :
             <StatusMsg><p>Algum erro aconteceu...</p></StatusMsg>)}

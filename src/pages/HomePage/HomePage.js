@@ -3,12 +3,8 @@ import MovieComponent from './MovieComponent'
 import { useGetMovies } from '../../APIs'
 import { useEffect } from "react"
 
-export default function HomePage({ setShowButton }) {
+export default function HomePage() {
     const { data, fetchError, isLoading } = useGetMovies()
-
-    useEffect(() => {
-        setShowButton(false);
-      }, [setShowButton]);
 
     return (
         <PageContainer>
