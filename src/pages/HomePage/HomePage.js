@@ -13,7 +13,15 @@ export default function HomePage() {
                 <>
                     Selecione o filme
                     <ListContainer>
-                        {data.map(movie => <MovieComponent id={movie.id} posterURL={movie.posterURL} title={movie.title} key={`Movie ${movie.id}`}/>)}
+                        {data.map(movie => 
+                            <MovieComponent 
+                                id={movie.id} 
+                                posterURL={movie.posterURL} 
+                                title={movie.title} 
+                                key={`Movie ${movie.id}`}
+                                data-test="movie"
+                            />
+                        )}
                     </ListContainer>
                 </>
             : 

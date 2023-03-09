@@ -56,12 +56,13 @@ export default function SeatsPage() {
             {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
             {!isLoading && !fetchError && (data?.seats?.length ? 
                 <>
-                    <Button onClick={() => nav(-1)}>Voltar</Button>
+                    <Button onClick={() => nav(-1)} data-test="go-home-header-btn">Voltar</Button>
                     Selecione o(s) assento(s)
 
                     <SeatsContainer>
                         {data.seats.map(seat => <SeatItem 
                             key={seat.id}
+                            data-test="seat"
                             status={seats.some(e => e.id === seat.id) ? 2 : seat.isAvailable ? 1 : 0}
                             onClick={
                                 seat.isAvailable ? 
@@ -100,20 +101,23 @@ export default function SeatsPage() {
                                         <h1>{`Assento ${seat.number}`}</h1>
                                         <br /> 
                                         Nome:
-                                        <input 
+                                        <input
+                                            data-test="client-name" 
                                             placeholder="Digite o nome completo..." 
                                             onChange={(e) => handleChange(e.target.value, "nome", index)}
                                         />
 
                                         CPF:
                                         <input 
+                                            data-test="client-cpf"
                                             placeholder="Digite o CPF..." 
                                             onChange={(e) => handleChange(e.target.value, "cpf", index)}
                                         />
                                     </div>
                                 )
                             })}
-                            <Link 
+                            <Link
+                                data-test="book-seat-btn"
                                 to={"/sucesso"} 
                                 state={{"movieInfo": state, "seatsInfo": seatsInfo, "seats": seats}} 
                                 style={linkStyle}
@@ -129,7 +133,7 @@ export default function SeatsPage() {
             : 
             <StatusMsg><p>Não existem dados sobre esta sessão...</p></StatusMsg>)}
     
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={state.url} alt="poster" />
                 </div>

@@ -30,18 +30,18 @@ export default function SuccessPage() {
             <> 
                 <h1>Pedido feito <br /> com sucesso!</h1>
 
-                <TextContainer>
+                <TextContainer data-test="movie-info">
                     <strong><p>Filme e sessão</p></strong>
                     <p>{state.movieInfo.title}</p>
                     <p>{`${state.movieInfo.date} - ${state.movieInfo.time}`}</p>
                 </TextContainer>
 
-                <TextContainer>
+                <TextContainer data-test="seats-info">
                     <strong><p>Ingressos</p></strong>
                     {state.seats.map(seat => <p key={`seat${seat.id}`}>Assento {seat.number}</p>)}
                 </TextContainer>
 
-                <TextContainer>
+                <TextContainer data-test="client-info">
                     <strong><p>{state.seats.length > 1 ? "Compradores" : "Comprador"}</p></strong>
                     {state.seatsInfo.map((seat, id) => 
                         <div key={`seatInfo${seat.idAssento}`}>
@@ -52,7 +52,7 @@ export default function SuccessPage() {
                     )}
                 </TextContainer>
 
-                <button onClick={() => nav(`/`)}>Voltar para Home</button>
+                <button data-test="go-home-btn" onClick={() => nav(`/`)}>Voltar para Home</button>
             </>
             :
             <StatusMsg><p>Algum erro aconteceu...</p></StatusMsg>)}

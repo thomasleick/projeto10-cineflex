@@ -15,11 +15,11 @@ export default function SessionsPage() {
             {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
             {!isLoading && !fetchError && (data?.days?.length ? 
                 <>
-                    <Button onClick={() => nav(-1)}>Voltar</Button>
+                    <Button onClick={() => nav(-1)} data-test="go-home-header-btn">Voltar</Button>
                     Selecione o horário
                     
                     {data.days.map(day =>
-                        <SessionContainer key={day.id}>
+                        <SessionContainer data-test="movie-day" key={day.id}>
                             {`${day.weekday} - ${day.date}`}
                             <ButtonsContainer>
                                 {day.showtimes.map(session => {
@@ -30,7 +30,16 @@ export default function SessionsPage() {
                                         "date": day.date,
                                         "time": session.name
                                     }
-                                    return (<Link to={`/assentos/${session.id}`} state={stateSession} key={session.id}><button>{session.name}</button></Link>)
+                                    return (
+                                        <Link 
+                                            to={`/assentos/${session.id}`}
+                                            state={stateSession}
+                                            key={session.id}
+                                            data-test="showtime"
+                                        >
+                                            <button>{session.name}</button>
+                                        </Link>
+                                    )
                                 })}
                             </ButtonsContainer>
                         </SessionContainer>
@@ -40,7 +49,7 @@ export default function SessionsPage() {
             : 
             <StatusMsg><p>Não há horários disponíveis...</p></StatusMsg>)}
            
-            <FooterContainer>
+            <FooterContainer data-test="footer">
                 <div>
                     <img src={state.url} alt="poster" />
                 </div>
