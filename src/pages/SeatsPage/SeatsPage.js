@@ -2,6 +2,7 @@ import { useState } from "react"
 import { useParams, useLocation, Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import { useGetSeatList } from "../../APIs"
+import * as url from "../../images/back.svg"
 
 export default function SeatsPage() {
     const nav = useNavigate()
@@ -56,7 +57,7 @@ export default function SeatsPage() {
             {!isLoading && fetchError && <StatusMsg><p style={{ color: "red" }}>{fetchError}</p></StatusMsg>}
             {!isLoading && !fetchError && (data?.seats?.length ? 
                 <>
-                    <Button onClick={() => nav(-1)} data-test="go-home-header-btn">Voltar</Button>
+                    <Img src={url.default} onClick={() => nav(-1)} data-test="go-home-header-btn" />
                     Selecione o(s) assento(s)
 
                     <SeatsContainer>
@@ -289,23 +290,10 @@ const linkStyle = {
     textDecoration: "none"
 }
 
-const Button = styled.button`
+const Img = styled.img`
     position: fixed;
-    top: 13px;
-    left: 13px;
-    height: 43px;
-    background: #E8833A;
-    border-radius: 3px;
-    border-style: none;
-    font-family: 'Roboto';
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #FFFFFF;
-    z-index: 1;
-    &:disabled {
-        background-color: lightgray;
-    }
+    top: 20px;
+    left: 12px;
+    width: 24px;
+    height: 24px;
 `
