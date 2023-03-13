@@ -117,6 +117,12 @@ export default function SeatsPage() {
                                         <input 
                                             data-test="client-cpf"
                                             placeholder="Digite o CPF..." 
+                                            maxLength="11"
+                                            onKeyDown={(e) => {
+                                                if (isNaN(Number(e.key))) {
+                                                    e.preventDefault();
+                                                }
+                                            }}
                                             onChange={(e) => handleChange(e.target.value, "cpf", index)}
                                         />
                                     </div>
