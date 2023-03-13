@@ -128,7 +128,7 @@ export default function SeatsPage() {
                                             maxLength="11"
                                             onKeyDown={(e) => {
                                                 const key = e.key;
-                                                if (isNaN(Number(key)) && key !== "Backspace" && key !== "Delete") {
+                                                if (!/^\d$/.test(key) && key !== "Backspace" && key !== "Delete") {
                                                     e.preventDefault();
                                                 }
                                             }}
