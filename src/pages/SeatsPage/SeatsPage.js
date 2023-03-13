@@ -12,6 +12,7 @@ export default function SeatsPage() {
     const { data, fetchError, isLoading } = useGetSeatList(params.id)
     const [seats, setSeats] = useState([])
     const [seatsInfo, setSeatsInfo] = useState([])
+    const [formOk, setformOk] = useState(false)
     const selected = 2
     const avaible = 1
     const unavaible = 0
@@ -25,6 +26,7 @@ export default function SeatsPage() {
             }
         setSeats(newSeats)
         setSeatsInfo(newSeatsInfo)
+        setformOk(false)
     }
 
     const removeSeat = (id, name) => {
@@ -54,6 +56,12 @@ export default function SeatsPage() {
         const newSeatsInfo = [...seatsInfo]
         newSeatsInfo[index][prop] = value
         setSeatsInfo(newSeatsInfo)
+        checkFormOk()
+    }
+
+    const checkFormOk = () => {
+        seatsInfo?.every(seat => seat?.cpf?.length === 11 && seat?.nome?.length > 0) ? setformOk(true) : setformOk(false)
+        console.log(formOk)
     }
 
     return (
@@ -119,7 +127,8 @@ export default function SeatsPage() {
                                             placeholder="Digite o CPF..." 
                                             maxLength="11"
                                             onKeyDown={(e) => {
-                                                if (isNaN(Number(e.key))) {
+                                                const key = e.key;
+                                                if (isNaN(Number(key)) && key !== "Backspace" && key !== "Delete") {
                                                     e.preventDefault();
                                                 }
                                             }}
@@ -128,14 +137,19 @@ export default function SeatsPage() {
                                     </div>
                                 )
                             })}
-                            <Link
-                                data-test="book-seat-btn"
-                                to={"/sucesso"} 
-                                state={{"movieInfo": state, "seatsInfo": seatsInfo, "seats": seats}} 
-                                style={linkStyle}
-                            >
-                                <button>Reservar Assento(s)</button>
-                            </Link>
+                            {
+                                formOk ? 
+                                    <Link
+                                        data-test="book-seat-btn"
+                                        to={"/sucesso"} 
+                                        state={{"movieInfo": state, "seatsInfo": seatsInfo, "seats": seats}} 
+                                        style={linkStyle}
+                                    >
+                                        <button>Reservar Assento(s)</button>
+                                    </Link>
+                                :   <Link style={linkStyle}><button disabled={true}>Reservar Assento(s)</button></Link>
+                            }
+
                         </FormContainer>    
                     :
                         <StatusMsg><br /><br /><br /><br /><p>Escolha sua(s) poltrona(s)</p></StatusMsg>
