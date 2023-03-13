@@ -12,6 +12,9 @@ export default function SeatsPage() {
     const { data, fetchError, isLoading } = useGetSeatList(params.id)
     const [seats, setSeats] = useState([])
     const [seatsInfo, setSeatsInfo] = useState([])
+    const selected = 2
+    const avaible = 1
+    const unavaible = 0
     
     const addSeat = (id, name) => {
         const newSeats = [...seats, { "id": id, "number": name }]
@@ -33,8 +36,10 @@ export default function SeatsPage() {
         const newSeatsInfo = [...seatsInfo]
         let index = -1;
         newSeats.some((e, i) => {
-            if (e.id === id)
-                return (index = i)
+            if (e.id === id) {
+                index = i
+                return true
+            }
             return false
         })
         if (index > -1) {
@@ -64,7 +69,7 @@ export default function SeatsPage() {
                         {data.seats.map(seat => <SeatItem 
                             key={seat.id}
                             data-test="seat"
-                            status={seats.some(e => e.id === seat.id) ? 2 : seat.isAvailable ? 1 : 0}
+                            status={seats.some(e => e.id === seat.id) ? selected : seat.isAvailable ? avaible : unavaible}
                             onClick={
                                 seat.isAvailable ? 
                                     seats.some(e => e.id === seat.id) ? 

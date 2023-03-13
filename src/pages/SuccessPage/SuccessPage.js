@@ -10,9 +10,9 @@ export default function SuccessPage() {
     const nav = useNavigate()
 
     useEffect(() => {
-        let ids = []
+        const ids = []
         state.seats.map(seat => ids.push(seat.id))
-        let newParams = { 
+        const newParams = { 
             "ids": ids,
             "compradores": state.seatsInfo
         }
